@@ -4,8 +4,14 @@
   <body>
     <%= render 'layouts/header' %>
     <div class="container">
+      <% flash.each do |message_type, message| %>
+        <%= content_tag(:div, message, class: "alert alert-#{message_type}")%>
+        <!--HTMLで直すと<div class="alert alert-〇〇">message</div>-->
+        <!--Bootstrapには、alert-〇〇でcssがsuccess, info, warning, dangerで４つパターンがある。-->
+      <% end %>
       <%= yield %>
       <%= render 'layouts/footer' %>
+      <%= debug(params) if Rails.env.development? %>
     </div>
   </body>
 </html>

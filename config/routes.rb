@@ -5,5 +5,8 @@ Rails.application.routes.draw do
   get 'contact',  to:'static_pages#contact'
   
   get '/signup',  to:'users#new'
+  resources :users
+  # usersコントローラーにアクションを追加する。
+  # rails routes参照したほうが見やすいし、早い。
  
 end
