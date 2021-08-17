@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   def create
     @user=User.new(user_params)
     if @user.save
+      log_in @user
       flash[:success]= "Welcome to the Sample App!"
       # 次のページ１回だけ表示されるものを格納してる。
       redirect_to user_url(@user)

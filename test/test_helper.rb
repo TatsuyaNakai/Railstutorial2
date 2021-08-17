@@ -14,4 +14,11 @@ class ActiveSupport::TestCase
   include ApplicationHelper
 
   # （すべてのテストで使うその他のヘルパーメソッドは省略）
+  
+  def is_logged_in?
+    !session[:user_id].nil?
+    # ヘルパーはテスト環境から呼び出すことができない。
+    # log_inが使えないから、sessionを代用して使う。
+  end
+  
 end
