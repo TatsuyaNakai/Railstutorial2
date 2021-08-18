@@ -19,7 +19,7 @@ class User < ApplicationRecord
   # 引数の文字列がオブジェクトのパスワードと一致するか確認できる
   # authenticateメソッドが使えるようになる。→合致したらobjを返す、違うならfalse
 
-  validates :password, presence: true, length: {minimum: 6}
+  validates :password, presence: true, length: {minimum: 6},allow_nil: true
   
   
   # # # クラスメソッドの知識について

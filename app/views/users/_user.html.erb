@@ -1,0 +1,12 @@
+<li>
+  <%= gravatar_for user, size: 50 %>
+  <%= link_to user.name, user %>
+  <% if current_user.admin? && !current_user?(user) %>
+  <!--左辺は、adminがtrueなことを聞いてる。
+      右辺は、管理者自身ではないときだけtrue-->
+    | <%= link_to "delete", user, method: :delete,
+                                  data: { confirm: "You sure?" } %>
+      <!--link_toはgetメソッドでページを移るのが基本的な使い方
+          deleteの場合は、第3引数にmethod:deleteが必要になる。-->
+  <% end %>
+</li>

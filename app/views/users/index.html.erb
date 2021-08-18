@@ -1,0 +1,23 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= will_paginate %>
+
+<ul class="users">
+  <%= render @users %>
+  <!--Railsがうまく、render先に@usersの一つずつ
+      抜き出したデータを格納してくれてる。
+      省略せずに書くと以下になる。-->
+  
+  <%# @users.each do |user| %>
+    <%#= render user %>
+    <!--この時のuserは取り出した時の変数に合わせたuser
+        パーシャル先とは関係ない。-->
+  <%# end %>
+  <!--ここで_user.html.erbのパーシャルが呼び出されるかは、
+      取得するインスタンスに影響する。今回は、
+      User.paginate...から取ってるから、_user.html.erbになる。-->
+  
+</ul>
+
+<%= will_paginate %>
