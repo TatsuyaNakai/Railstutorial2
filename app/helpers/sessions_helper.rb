@@ -24,7 +24,7 @@ module SessionsHelper
   # sessionがなかったら、次はcookiesにいきます。
   # cookiesをuser_idに保存する。なければnilでfalse、あればuser_idに値が入る。
       user= User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])
   # user.rbのauthenticated?参照。digestの値と一致するかどうかを判断してる。
         log_in user
   # sessionに格納します。

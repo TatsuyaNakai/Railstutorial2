@@ -1,0 +1,14 @@
+<h1>Sample App</h1>
+
+<p>Hi <%= @user.name %>,</p>
+
+<p>
+Welcome to the Sample App! Click on the link below to activate your account:
+</p>
+
+<%= link_to "Activate", edit_account_activation_url(@user.activation_token,
+                                                    email: @user.email) %>
+<!--URLを設定してる。ルートの第二引数は、(.:format)にはいる。
+    これはクエリって言われてて、今回で言うとeditのあとに続く形になる。-->
+<!--URLからparamsで情報を取得する時には、params[:email]で取得可能
+    emailの根拠は、この第二引数のハッシュにあるキーを確認すれば対応できる。-->

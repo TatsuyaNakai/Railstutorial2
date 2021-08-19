@@ -53,7 +53,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   test "login with remembering" do
     log_in_as(@user, remember_me: '1')
     # rememberを実行する。
-    assert_equal cookies[:remember_token], assigns(:user).remember_token
+    assert_not_empty cookies[:remember_token]
     # assert_not_emptyは、オブジェクト.empty?がfalseの時に通過する。（何かあれば通過）
   end
 

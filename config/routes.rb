@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   resources :users
   # usersコントローラーにアクションを追加する。
   # rails routes参照したほうが見やすいし、早い。
+  resources :account_activations, only: [:edit]
  
 end

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   
     
   def index
-    @users=User.paginate(page: params[:page])
+    @users=User.where(activated: true ).paginate(page: params[:page])
     # デフォルトで1ページあたり30データ分扱う。
     # URLを2にしたら、pageも2になって、31~60のデータを取得する。
     # 2にするとURLのクエリがpage=2になる。
@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   
   def show
     @user= User.find(params[:id])
+    redirect_to root_url and return unless @user.activated?
     
   end
   
@@ -23,11 +24,9 @@ class UsersController < ApplicationController
   def create
     @user=User.new(user_params)
     if @user.save
-      log_in @user
-      flash[:success]= "Welcome to the Sample App!"
-      # 次のページ１回だけ表示されるものを格納してる。
-      redirect_to user_url(@user)
-      # user_urlは省略できる。
+      @user.send_activation_email
+      flash[:info]="Please check your email to activate your account."
+      redirect_to root_url
     else
       render 'new'
     end
