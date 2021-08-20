@@ -1,0 +1,12 @@
+<% if @feed_items.any? %>
+  <ol class="microposts">
+    <%#= render @feed_items %>
+    <% @feed_items.each do |item| %>
+      <%= render item %>
+      <!--@feed_itemはmicropostクラスなので、参照ルートが
+          何もなければ、_micropost.html.erbを探しに行く。-->
+    <% end %>
+  </ol>
+  <%= will_paginate @feed_items, params:{controller: :static_pages,
+                                         action: :home } %>
+<% end %>

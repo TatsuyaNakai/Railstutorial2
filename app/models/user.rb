@@ -3,6 +3,8 @@ class User < ApplicationRecord
   before_save   :downcase_email
   before_create :create_activation_digest
   
+  has_many :microposts, dependent: :destroy
+  
   # dbに保存するまえ、user=User.newで.user.saveするまえにブロック内が発火する。
   validates :name,  presence:true, length: {maximum: 50}
   
@@ -87,6 +89,10 @@ class User < ApplicationRecord
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
     # 2時間以内を表現してる。
+  end
+  
+  def feed
+    Micropost.where("user_id = ?", id)
   end
 
 

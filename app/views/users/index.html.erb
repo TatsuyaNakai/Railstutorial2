@@ -2,6 +2,8 @@
 <h1>All users</h1>
 
 <%= will_paginate %>
+<!--このビューを表示してるコントローラがusersなので
+    何も書かなければ、　@usersが引数になるだろうとよしなにやってくれる。-->
 
 <ul class="users">
   <%= render @users %>
