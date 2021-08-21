@@ -4,6 +4,17 @@ class User < ApplicationRecord
   before_create :create_activation_digest
   
   has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name:   "Relationship",
+                                  foreign_key:  "follower_id",
+                                    dependent:  :destroy
+                                    
+  has_many :following, through: :active_relationships, source: :followed
+  
+  has_many :passive_relationships, class_name: "Relationship",
+                                   foreign_key: "followed_id",
+                                     dependent: :destroy
+                                     
+  has_many :followers, through: :passive_relationships, source: :follower
   
   # dbに保存するまえ、user=User.newで.user.saveするまえにブロック内が発火する。
   validates :name,  presence:true, length: {maximum: 50}
@@ -92,8 +103,32 @@ class User < ApplicationRecord
   end
   
   def feed
-    Micropost.where("user_id = ?", id)
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE follower_id = :user_id"
+    # relationshipsテーブルのfollowed_idのカラムにおいて、
+    # follower_idがuser_idのものをfollowing_idsに格納
+    Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: id)
   end
+  
+  # ユーザーをフォローする
+  def follow(other_user)
+    following << other_user
+    # other_userをfollowingの配列の中に格納してる。（追加）
+  end
+  
+   # ユーザーをフォロー解除する
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+    # テーブルから、該当するユーザーをidから探して削除する。
+  end
+
+  # 現在のユーザーがフォローしてたらtrueを返す
+  def following?(other_user)
+    following.include?(other_user)
+    # 該当するユーザーが配列の中に入っているかを確認する。
+  end
+
 
 
 # ---------------------------------------------------------------------
